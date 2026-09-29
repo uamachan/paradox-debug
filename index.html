@@ -130,8 +130,8 @@ textarea{min-height:70px;resize:vertical}
   </header>
 
   <main id="main"></main>
-  <div class="foot" id="foot" hidden>
-    <span id="src"></span> · <button id="reload">再読み込み</button> · <button id="logout">トークンを消す</button>
+  <div class="foot">
+    チェックはこのブラウザに保存 (別の端末・シークレットウィンドウには出ない) · <button id="resetAll">全部リセット</button>
   </div>
 </div>
 
@@ -145,9 +145,126 @@ textarea{min-height:70px;resize:vertical}
 </div>
 <div class="toast hide" id="toast"></div>
 
+<script type="text/plain" id="base">
+# 実機デバッグ チェックリスト
+
+印: `[ ]` 未 / `[x]` OK / `[!]` バグ / `[-]` あとで
+
+## 1. ログイン・HUD・無線
+- [x] multicharacter — 接続→キャラ選択→作成→スポーン、キャラ削除 (一般は不可・運営は可)、背景・BGM が消える
+- [x] paradox-personal-modifier — スポーン直後にエラーが出ない
+- [ ] jg-hud — `/settings` レイアウト編集を開いて閉じる、Paradox パネル・無線リスト・通知エリア・配信コメント・マイクOFF表示
+- [ ] paradox-nametag — 名札の表示・配信中マーク
+- [ ] paradox-ringtone — 着信音の登録・再生
+- [ ] pma-voice — 近距離の声・範囲切替
+- [ ] mm_radio — 無線 UI を開閉、1-10ch の職業制限、死亡・無線機を捨てた時に抜ける
+- [ ] x-radiolist — 無線リスト表示、jg-hud restart 後も出る
+
+## 2. 車・お金
+- [ ] qbx_vehiclekeys — 鍵の受け渡し、ロックピック/ホットワイヤーを失敗・キャンセル、上級ロック車
+- [ ] lc_fuel — 給油中に離れる・死ぬ・車が消える、ノズルが残らない
+- [ ] paradox-vehicleshop — 試乗 (時間切れ・死亡・切断)、購入→スポーン→燃料、連続購入
+- [ ] paradox-banking — ATM・銀行の入出金・送金、閉じた後に操作できる
+- [ ] um-idcard — ID を見せる・閉じる
+
+## 3. 服・家・操作・生活
+- [ ] illenium-appearance — 初回作成・着替え室で 保存 / キャンセル / ESC / 途中死亡
+- [ ] dpclothing — 着脱コマンド
+- [ ] ps-housing — 入る・出る、家の中で切断→再接続、家具配置モードを抜ける、来客
+- [ ] ps-realtor — 物件一覧・購入の UI
+- [ ] cylex_animmenuv2 — エモートメニュー開閉、エモート中に死亡・乗車で解除
+- [ ] qb-radialmenu — F1 メニューを開いて閉じる、死亡・手錠中
+- [ ] paradox-crafting — 作業台でクラフトをキャンセル・満杯時
+- [ ] paradox-gym — 器具の使用・中断・同じ器具を2人で
+- [ ] frkn-waypoint — ウェイポイント表示
+- [ ] Renewed-Weathersync — 天気・時間の同期、家の中/外
+
+## 4. 警察・救急・運営
+- [ ] qbx_police — 手錠→エスコート→車に乗せる/降ろす、どちらかが切断・死亡
+- [ ] ps-mdt — タブレット開閉、検索、罰金・収監
+- [ ] ps-dispatch — 通報の表示・応答・ウェイポイント
+- [ ] pickle_prisons — 収監→刑期終了で出る、収監中に切断→再接続
+- [ ] helicam — ヘリカメラの開始・終了、降機・死亡
+- [ ] paradox-ambulance — ダウン→救助要請→蘇生 / リスポーン、入院 (満床でキャンセル)、担架・担ぎ
+- [ ] wasabi_crutch — 松葉杖の付与・解除
+- [ ] qbx_adminmenu — noclip・spectate・freeze を戻す、蘇生
+
+## 5. メカ・経営
+- [ ] jg-mechanic — 改造プレビューを開いて閉じる、注文→取り付け、途中キャンセル
+- [ ] qbx_towjob — `/tow` 積む・降ろす
+- [ ] paradox-businessmenu — `/business` `/bossmenu` タブレット、ギャングアジト、雇用・解雇・ランク
+- [ ] paradox-businesscooking — 調理のキャンセル・途中死亡
+- [ ] ps-multijob — J メニューで職業切替
+- [ ] paradox-vineyard — ぶどう収穫・樽
+- [ ] paradox-recycle — 仕分け・交換
+
+## 6. 一般の仕事
+> 全部同じ流れ: 受注→作業→納品→返却、途中キャンセル、車両破壊後にもう一度受注
+- [ ] jim-mining — 受注→作業→納品→返却、途中キャンセル、車両破壊後にもう一度受注
+- [ ] lc_fishing_simulator — 受注→作業→納品→返却、途中キャンセル、車両破壊後にもう一度受注
+- [ ] lc_truck_logistics — 受注→作業→納品→返却、途中キャンセル、車両破壊後にもう一度受注
+- [ ] qs-garbagejob — 受注→作業→納品→返却、途中キャンセル、車両破壊後にもう一度受注
+- [ ] qb-taxijob — 受注→作業→納品→返却、途中キャンセル、車両破壊後にもう一度受注
+- [ ] qb-hotdogjob — 受注→作業→納品→返却、途中キャンセル、車両破壊後にもう一度受注
+- [ ] qbx_busjob — 受注→作業→納品→返却、途中キャンセル、車両破壊後にもう一度受注
+- [ ] 17mov_WindowCleaning — 受注→作業→納品→返却、途中キャンセル、車両破壊後にもう一度受注
+- [ ] kq_powerwashing — 受注→作業→納品→返却、途中キャンセル、車両破壊後にもう一度受注
+- [ ] xrb-hunting — 受注→作業→納品→返却、途中キャンセル、車両破壊後にもう一度受注
+
+## 7. ギャング・薬物
+- [ ] paradox-gang — ギャングメニュー・勧誘・追放
+- [ ] paradox-turfwar — 開始→途中で死亡・切断→終了、勝敗後に次が始まる
+- [ ] paradox-spray — スプレー描画を開始・キャンセル
+- [ ] paradox-drugs — 加工・販売の中断
+- [ ] paradox-drugdeals — 配達依頼の受注→納品、再起動後
+- [ ] paradox-weed — 栽培→収穫、restart 後に植物が残る
+- [ ] paradox-dealerweb — ログイン・購入・下取り
+- [ ] pr-wanted — 手配度の付与・解除
+
+## 8. 強盗
+> 先に server.cfg:89 の `pr:skip_minigames 1` を 0 にする (1 だとミニゲームが全部スキップ)
+- [ ] heist_minigames / cc_minigames — 各ミニゲームで ESC・失敗・時間切れ、操作が戻る、道具だけ消えない
+- [ ] paradox-shoprobbery — 開始→失敗→もう一度開始、全員死亡・切断後、restart 後
+- [ ] pl-atmrob — 開始→失敗→もう一度開始、全員死亡・切断後、restart 後
+- [ ] rm-houserobbery — 開始→失敗→もう一度開始、全員死亡・切断後、restart 後、家から出られる
+- [ ] hakahori — 開始→失敗→もう一度開始、全員死亡・切断後、restart 後
+- [ ] rahe-boosting — 開始→失敗→もう一度開始、全員死亡・切断後、restart 後
+- [ ] ps-signrobbery — 開始→失敗→もう一度開始、全員死亡・切断後、restart 後
+- [ ] cc_jewelryheist — 開始→失敗→もう一度開始、全員死亡・切断後、restart 後
+- [ ] cc_paletoheist — 開始→失敗→もう一度開始、全員死亡・切断後、restart 後
+- [ ] paradox-bobcatheist — 開始→失敗→もう一度開始、全員死亡・切断後、restart 後
+- [ ] CL-ThermiteMission — 開始→失敗→もう一度開始、全員死亡・切断後、restart 後
+- [ ] rm_artheist — 開始→失敗→もう一度開始、全員死亡・切断後、restart 後
+- [ ] rm_humanelabsheist — 開始→失敗→もう一度開始、全員死亡・切断後、restart 後
+- [ ] rm_oilrigheist — 開始→失敗→もう一度開始、全員死亡・切断後、restart 後
+- [ ] rm_unionheist — 開始→失敗→もう一度開始、全員死亡・切断後、restart 後
+- [ ] pr-pacificheist — 開始→失敗→もう一度開始、全員死亡・切断後、restart 後
+- [ ] rm-casinoheist — 開始→失敗→もう一度開始、全員死亡・切断後、restart 後
+- [ ] rm_trainheist — 開始→失敗→もう一度開始、全員死亡・切断後、restart 後
+- [ ] rm-carheist — 開始→失敗→もう一度開始、全員死亡・切断後、restart 後
+- [ ] rm-artifact — 開始→失敗→もう一度開始、全員死亡・切断後、restart 後
+- [ ] sd-iaaheist — 開始→失敗→もう一度開始、全員死亡・切断後、restart 後
+- [ ] kq_club_heist — 開始→失敗→もう一度開始、全員死亡・切断後、restart 後
+
+## 9. 娯楽・イベント
+- [ ] pug-paintball — ロビー→試合→終了で元の場所・装備・体力に戻る、試合中に切断・全員退出、市街戦
+- [ ] rahe-racing — カウントダウン中・途中離脱
+- [ ] rcore_tennis — 相手が途中で離れる・切断
+- [ ] rcore_pingpong — 相手が途中で離れる・切断
+- [ ] evy_armwrestling — 相手が途中で離れる・切断
+- [ ] paradox-bobcat — 開始→放置→次のイベントが始まる
+- [ ] paradox-airdrop — 開始→放置→次のイベントが始まる
+
+## 10. 配信・メディア
+- [ ] paradox-streamer — `/stream` 連携、`/live`、コメント欄、配信中の車ラジオミュートが降車で戻る
+- [ ] paradox-stickers — 貼る・剥がす・Discord 取り込み
+- [ ] wasabi_boombox — 設置・再生・拾う、持ち主の切断
+- [ ] ptelevision — 再生・停止
+- [ ] paradox-patron — 特典受取
+- [ ] paradox-bot — Discord 連携の動作 (`paradoxbot_gateway`)
+</script>
 <script>
-const OWNER = 'uamachan', REPO = 'paradoxcityy', PATH = 'docs/debug/checklist.md', BRANCH = 'master';
-const API = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${PATH}`;
+const KEY = 'paradox-debug-marks';
 const TAGS = ['暗転が戻らない', 'カメラが戻らない', 'マウスカーソルが残る/出ない', '固まって動けない', 'アニメが止まらない', '持ち物(プロップ)が残る', '次の1回が始められない'];
 const NOTE_RE = /^  - バグ: (.*)$/;
 const ITEM_RE = /^- \[(.)\] (.+?)(?: — (.+))?$/;
@@ -159,9 +276,8 @@ const store = {
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-let token = store.get('gh_token');
-let lines = [], sha = null, items = [];
-let tab = 'now', pick = null, busy = false, bugOpen = false, bugTags = new Set();
+let lines = [], items = [];
+let tab = 'now', pick = null, bugOpen = false, bugTags = new Set();
 let undo = [];
 let checked = new Set();
 const today = new Date().toISOString().slice(0, 10);
@@ -190,47 +306,20 @@ function setMark(name, mark, bugs) {
   parse();
 }
 
-function b64dec(s) {
-  const bin = atob(s.replace(/\s/g, ''));
-  return new TextDecoder().decode(Uint8Array.from(bin, c => c.charCodeAt(0)));
-}
-function b64enc(s) {
-  const bytes = new TextEncoder().encode(s); let bin = '';
-  for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
-  return btoa(bin);
-}
-
-async function gh(method, body) {
-  const url = method === 'GET' ? `${API}?ref=${BRANCH}&t=${Date.now()}` : API;
-  const r = await fetch(url, {
-    method, cache: 'no-store',
-    headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' },
-    body: body && JSON.stringify(body)
-  });
-  if (!r.ok) { const e = new Error(r.status === 401 ? 'トークンが無効' : r.status === 404 ? 'ファイルが見えない (トークンの権限を確認)' : `GitHub ${r.status}`); e.status = r.status; throw e; }
-  return r.json();
-}
-
-async function load() {
-  const j = await gh('GET');
-  sha = j.sha;
-  lines = b64dec(j.content).replace(/\n$/, '').split('\n');
+// 埋め込みの一覧に、このブラウザで付けた印を名前で重ねる (一覧を差し替えても印は残る)
+function load() {
+  lines = $('#base').textContent.trim().split(/\r?\n/);
   parse();
+  let saved = {};
+  try { saved = JSON.parse(store.get(KEY) || '{}'); } catch {}
+  for (const [name, v] of Object.entries(saved)) if (items.some(x => x.name === name)) setMark(name, v.mark, v.bugs || []);
 }
 
-// 他で更新されていたら (409) 読み直して同じ変更をやり直す
-async function commit(name, mark, bugs, msg) {
-  for (let attempt = 0; attempt < 2; attempt++) {
-    try {
-      setMark(name, mark, bugs);
-      const j = await gh('PUT', { message: msg, content: b64enc(lines.join('\n') + '\n'), sha, branch: BRANCH });
-      sha = j.content.sha;
-      return j.commit.sha.slice(0, 7);
-    } catch (e) {
-      if ((e.status === 409 || e.status === 422) && attempt === 0) { await load(); continue; }
-      throw e;
-    }
-  }
+function commit(name, mark, bugs) {
+  setMark(name, mark, bugs);
+  const map = {};
+  items.forEach(x => { map[x.name] = { mark: x.mark, bugs: x.bugs }; });
+  store.set(KEY, JSON.stringify(map));
 }
 
 function current() {
@@ -244,41 +333,41 @@ function toast(msg) {
   clearTimeout(toastT); toastT = setTimeout(() => t.classList.add('hide'), 1800);
 }
 
-async function act(kind) {
-  const cur = current(); if (!cur || busy) return;
+function act(kind) {
+  const cur = current(); if (!cur) return;
   if (kind === 'bug' && !bugOpen) { bugOpen = true; bugTags = new Set(); render(); setTimeout(() => $('#bugText')?.focus(), 0); return; }
-  let mark, bugs = [], msg;
-  if (kind === 'ok') { mark = 'x'; msg = `debug: ${cur.name} OK`; }
-  if (kind === 'later') { mark = '-'; msg = `debug: ${cur.name} あとで`; }
+  let mark, bugs = [];
+  if (kind === 'ok') mark = 'x';
+  if (kind === 'later') mark = '-';
   if (kind === 'bug') {
     const txt = [...bugTags].map(i => TAGS[i]).concat(($('#bugText').value || '').trim()).filter(Boolean).join(' / ');
     if (!txt) { toast('何が起きたか選ぶか書いて'); return; }
-    mark = '!'; bugs = [txt]; msg = `debug: ${cur.name} バグ - ${txt}`;
+    mark = '!'; bugs = [txt];
   }
   undo.push({ name: cur.name, mark: cur.mark, bugs: cur.bugs });
-  busy = true; render();
-  try {
-    const c = await commit(cur.name, mark, bugs, msg);
-    done++; store.set('done_' + today, done);
-    pick = null; bugOpen = false; checked = new Set();
-    toast(`${kind === 'ok' ? 'OK' : kind === 'bug' ? 'バグ記録' : 'あとで'} · commit ${c}`);
-  } catch (e) { undo.pop(); toast('保存失敗: ' + e.message); await safeLoad(); }
-  busy = false; render();
+  commit(cur.name, mark, bugs);
+  done++; store.set('done_' + today, done);
+  pick = null; bugOpen = false; checked = new Set();
+  toast(kind === 'ok' ? 'OK で保存' : kind === 'bug' ? 'バグで保存' : 'あとで に回した');
+  render(); window.scrollTo(0, 0);
 }
 
-async function doUndo() {
-  const u = undo.at(-1); if (!u || busy) return;
-  busy = true; render();
-  try {
-    const c = await commit(u.name, u.mark, u.bugs, `debug: ${u.name} 戻す`);
-    undo.pop(); done = Math.max(0, done - 1); store.set('done_' + today, done);
-    pick = u.name; bugOpen = false; checked = new Set();
-    toast(`戻した · commit ${c}`);
-  } catch (e) { toast('戻せなかった: ' + e.message); await safeLoad(); }
-  busy = false; render();
+function doUndo() {
+  const u = undo.pop(); if (!u) return;
+  commit(u.name, u.mark, u.bugs);
+  done = Math.max(0, done - 1); store.set('done_' + today, done);
+  pick = u.name; bugOpen = false; checked = new Set();
+  toast('戻した'); render();
 }
 
-async function safeLoad() { try { await load(); } catch (e) { toast(e.message); } }
+function bugText() {
+  return items.filter(x => x.mark === '!').map(x => `- ${x.name}\n` + x.bugs.map(b => `  - ${b}`).join('\n')).join('\n');
+}
+async function copyBugs() {
+  const t = bugText(); if (!t) { toast('バグはまだ無い'); return; }
+  try { await navigator.clipboard.writeText(t); toast('バグ一覧をコピーした'); }
+  catch { const a = $('#bugDump'); if (a) { a.hidden = false; a.value = t; a.select(); } toast('下の欄を選んでコピーして'); }
+}
 
 function markChip(m) {
   return { x: '<span class="mk mk-x">OK</span>', '!': '<span class="mk mk-b">バグ</span>', '-': '<span class="mk mk-l">あとで</span>', ' ': '<span class="mk mk-n">未</span>' }[m] || '';
@@ -322,40 +411,16 @@ function renderList(onlyBugs) {
   if (!src.length) return `<p class="empty">${onlyBugs ? 'バグはまだ無い' : '項目なし'}</p>`;
   const groups = {};
   src.forEach(x => (groups[x.sec] ||= []).push(x));
-  return `<div class="list">${Object.entries(groups).map(([s, xs]) => `<section><h2>${esc(s)}</h2><ul>${xs.map(x =>
+  const tools = onlyBugs ? `<div class="btnrow"><button class="btn" id="copyBugs">バグ一覧をコピー</button></div><textarea id="bugDump" readonly hidden></textarea>` : '';
+  return `<div class="list">${tools}${Object.entries(groups).map(([s, xs]) => `<section><h2>${esc(s)}</h2><ul>${xs.map(x =>
     `<li><button data-pick="${esc(x.name)}">${markChip(x.mark)}<span><span class="nm">${esc(x.name)}</span>${x.bugs.map(b => `<span class="bn">${esc(b)}</span>`).join('')}</span></button></li>`).join('')}</ul></section>`).join('')}</div>`;
 }
 
-function renderSetup(err) {
-  return `<div class="card setup">
-    <h2 class="name" style="font-size:22px">最初に1回だけ</h2>
-    <p>GitHub のトークンを入れると、ボタンを押すたびに <code>${OWNER}/${REPO}</code> の <code>${PATH}</code> に commit される。</p>
-    <ol>
-      <li><a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Fine-grained token を作る</a></li>
-      <li>Repository access: <b>Only select repositories</b> → <code>${REPO}</code></li>
-      <li>Permissions → Repository → <b>Contents: Read and write</b></li>
-      <li>作ったトークンを下に貼る (この端末のブラウザにだけ保存)</li>
-    </ol>
-    <input type="password" id="tok" placeholder="github_pat_..." autocomplete="off">
-    ${err ? `<div class="err">${esc(err)}</div>` : ''}
-    <div class="btnrow"><button class="btn" id="tokSave">保存して始める</button></div>
-  </div>`;
-}
-
-function render(err) {
-  if (!token) {
-    $('#main').innerHTML = renderSetup(err);
-    $('#actions').hidden = true; $('#foot').hidden = true; $('#stats').textContent = 'トークン未設定';
-    return;
-  }
+function render() {
   renderHead();
   $('#main').innerHTML = tab === 'now' ? renderNow() : renderList(tab === 'bugs');
-  $('#foot').hidden = false;
-  $('#src').textContent = `${OWNER}/${REPO} · ${PATH}`;
-  const showAct = tab === 'now' && current();
-  $('#actions').hidden = !showAct;
-  $('#bOk').disabled = $('#bBug').disabled = $('#bLater').disabled = busy;
-  $('#bUndo').disabled = busy || !undo.length;
+  $('#actions').hidden = !(tab === 'now' && current());
+  $('#bUndo').disabled = !undo.length;
 }
 
 document.addEventListener('click', e => {
@@ -373,14 +438,13 @@ document.addEventListener('click', e => {
     case 'bLater': act('later'); break;
     case 'bUndo': doUndo(); break;
     case 'bugCancel': bugOpen = false; render(); break;
-    case 'reload': safeLoad().then(() => { render(); toast('読み直した'); }); break;
-    case 'logout': token = null; store.set('gh_token', null); render(); break;
-    case 'tokSave': saveToken(); break;
+    case 'copyBugs': copyBugs(); break;
+    case 'resetAll': if (t.dataset.armed) { store.set(KEY, null); undo = []; pick = null; load(); render(); delete t.dataset.armed; t.textContent = '全部リセット'; toast('全部未チェックに戻した'); } else { t.dataset.armed = 1; t.textContent = 'もう一回押すと全部消える'; } break;
   }
 });
 
 document.addEventListener('keydown', e => {
-  if (!token || tab !== 'now' || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (tab !== 'now' || e.ctrlKey || e.metaKey || e.altKey) return;
   const inField = /^(TEXTAREA|INPUT)$/.test(document.activeElement?.tagName);
   if (inField) {
     if (e.key === 'Enter' && !e.shiftKey && bugOpen) { e.preventDefault(); act('bug'); }
@@ -397,18 +461,7 @@ document.addEventListener('keydown', e => {
   else if (bugOpen && /^[1-7]$/.test(k)) { const i = +k - 1; bugTags.has(i) ? bugTags.delete(i) : bugTags.add(i); render(); }
 });
 
-async function saveToken() {
-  const v = ($('#tok').value || '').trim(); if (!v) return;
-  token = v;
-  try { await load(); store.set('gh_token', v); render(); }
-  catch (e) { token = null; render(e.message); }
-}
-
-(async () => {
-  if (!token) return render();
-  try { await load(); render(); }
-  catch (e) { if (e.status === 401) { token = null; store.set('gh_token', null); render(e.message); } else { $('#stats').textContent = e.message; } }
-})();
+load(); render();
 </script>
 </body>
 </html>
